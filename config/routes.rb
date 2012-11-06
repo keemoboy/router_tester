@@ -15,10 +15,20 @@ RouterTester::Application.routes.draw do
 
   resources :companies
 
-  resources :managers
+  resources :managers do
+      get :generate_statistics, :on => :member
+  end
+  #
+  # match 'bosses/' => 'managers/'
 
   resources :employees do
-    resources :evaluations
+    resources :evaluations do
+      resources :scores
+    end
+  end
+
+  resources :employees do
+      put :promote, :on => :member
   end
 
 
@@ -33,7 +43,7 @@ RouterTester::Application.routes.draw do
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
+  # Sample resource route (maps HTTP verbs to controllers automatically):
   #   resources :products
 
   # Sample resource route with options:
